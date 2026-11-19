@@ -208,6 +208,56 @@ namespace MSearch.Core.ThreatAnalyzers
                 yield return new ThreatDecision(taskObj, risk, ScanObjectType.Suspicious);
             }
 
+            string systemProfilePath = null;
+            FileThreatObject systemProfileFile = null;
+
+            if (IsSystemProfilePath(filePathFromTask) || IsSystemProfilePath(action.Path))
+            {
+                systemProfilePath = string.IsNullOrEmpty(filePathFromTask)
+                    ? Environment.ExpandEnvironmentVariables(action.Path.Trim().Trim('"'))
+                    : filePathFromTask;
+                systemProfileFile = taskObj.LinkedFile;
+            }
+            else
+            {
+                string argsPath = ExtractFirstAbsolutePath(args);
+                if (IsSystemProfilePath(argsPath))
+                {
+                    systemProfilePath = Environment.ExpandEnvironmentVariables(argsPath.Trim().Trim('"'));
+                    systemProfileFile = CreateFileObject(systemProfilePath);
+                    if (systemProfileFile != null)
+                        taskObj.LinkedFileFromArgs = systemProfileFile;
+                }
+            }
+
+            if (systemProfilePath != null)
+            {
+                AppConfig.GetInstance.LL.LogWarnMessage("_SystemProfileTask",
+                    $"{taskObj.Info.Path}\\{taskObj.Info.Name} | {systemProfilePath}");
+
+                if (systemProfileFile != null && systemProfileFile.IsValidSignature)
+                {
+                    risk += 2;
+                    taskObj.DetectionReasonRes = "_SystemProfileTask";
+                    yield return new ThreatDecision(taskObj, risk, ScanObjectType.Suspicious);
+                }
+                else
+                {
+                    risk += 3;
+                    taskObj.DetectionReasonRes = "_SystemProfileTask";
+
+                    if (!LaunchOptions.GetInstance.ScanOnly)
+                    {
+                        taskObj.ActionQuarantineTask = true;
+                        taskObj.ActionDeleteTask = true;
+                        MarkFileForAction(systemProfileFile);
+                        AppConfig.GetInstance.LL.LogSuccessMessage("_TaskMarkedToQuarantine", $"{taskObj.Info.Path}\\{taskObj.Info.Name}");
+                    }
+
+                    yield return new ThreatDecision(taskObj, risk, ScanObjectType.Malware);
+                }
+            }
+
             if (taskObj.LinkedFile != null)
             {
                 AppConfig.GetInstance.LL.LogMessage("\t[.]", "_Just_File", $"{filePathFromTask} {args}", ConsoleColor.Gray);
@@ -1397,6 +1447,15 @@ namespace MSearch.Core.ThreatAnalyzers
 
             taskObj.LinkedFileFromArgs = file;
             MarkFileForAction(file);
+        }
+
+        bool IsSystemProfilePath(string rawPath)
+        {
+            if (string.IsNullOrWhiteSpace(rawPath))
+                return false;
+
+            string expanded = Environment.ExpandEnvironmentVariables(rawPath.Trim().Trim('"'));
+            return expanded.IndexOf(@"\config\systemprofile\", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         bool IsTempBinaryPath(string rawPath)

@@ -7865,5 +7865,23 @@ namespace MSearch.Properties {
                 return ResourceManager.GetString("_YesBtn_RU", resourceCulture);
             }
         }
+
+        /// <summary>
+        /// Looks up a localized string similar to Task runs a file from the system profile:.
+        /// </summary>
+        internal static string _SystemProfileTask_EN {
+            get {
+                return ResourceManager.GetString("_SystemProfileTask_EN", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string for the system-profile task warning.
+        /// </summary>
+        internal static string _SystemProfileTask_RU {
+            get {
+                return ResourceManager.GetString("_SystemProfileTask_RU", resourceCulture);
+            }
+        }
     }
 }

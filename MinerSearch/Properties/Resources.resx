@@ -2369,6 +2369,12 @@ Do you want to continue?
   <data name="_IfExistHexQuoteTask_RU" xml:space="preserve">
     <value>16-ричное экранирование кавычек пути</value>
   </data>
+  <data name="_SystemProfileTask_RU" xml:space="preserve">
+    <value>Задача запускает файл из системного профиля:</value>
+  </data>
+  <data name="_SystemProfileTask_EN" xml:space="preserve">
+    <value>Task runs a file from the system profile:</value>
+  </data>
   <data name="_TempBinaryTask_EN" xml:space="preserve">
     <value>Task runs a binary from %TEMP%:</value>
   </data>
