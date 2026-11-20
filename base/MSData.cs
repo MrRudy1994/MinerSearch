@@ -1470,6 +1470,7 @@ namespace DBase
             AddObfPath(obfStr1, "AppData", false, "sys?fil?es".Replace("?", ""));
             AddObfPath(obfStr1, "AppData", false, "Drivers?Update".Replace("?", ""));
             AddObfPath(obfStr1, "AppData", false, "Mic?ro?soft".Replace("?", ""), "Libs".Replace("?", ""));
+            AddObfPath(obfStr1, "AppData", false, "M?icro?sof?t".Replace("?", ""), "Syst?e?mData".Replace("?", ""));
             AddObfPath(obfStr1, "AppData", false, "W?indowsHe?l?per".Replace("?", ""));
             AddObfPath(obfStr2, new StringBuilder("Lo").Append("ca").Append("lA").Append("pp").Append("Da").Append("ta").ToString(), false, "clienthelper-up?d?ater".Replace("?", ""), "i?ns?talle?r.exe".Replace("?", ""));
             AddObfPath(obfStr2, new StringBuilder("Lo").Append("ca").Append("lA").Append("pp").Append("Da").Append("ta").ToString(), false, "torr?e?ntpro-updater".Replace("?", ""), "install?er.exe".Replace("?", ""));
