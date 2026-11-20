@@ -394,6 +394,14 @@ namespace DBase
                 "f9b3908f-4f58-45ec-a9a8-c1b88e9dbe98",
             };
 
+        public List<string> badClsidHandlers = new List<string>()
+            {
+                "b5f8350b-0548-48b1-a6ee-88bd00b4a5e7",
+                "0e5aae11-a475-4c5b-ab00-c66de400274e",
+                "00bb2763-6a77-11d0-a535-00c04fd7d062",
+                "289af617-1cc3-42a6-926c-e6a863f0e3ba",
+            };
+
 	public List<string> DisallowRunIgnoreList = new List<string>() {
 		Bfs.Create("Y6nhqGiEOuzi3CeTP7QloDHJNClKx5Yr40IVEGQHC4I=", "MZMjas+F4VAugGkSy4Z7HLuXKYcL+oG8GnkRbectpDo=", "FXZB+Vun3htMJcBYOKtwLw=="), //CompatTelRunner.exe
 		Bfs.Create("KwfnN9G4dRUKDZgJXok1Ec3HVFvdiIpTpjBovMG5s/s=", "BSKu9VKsXJqnPjRAtev6Zt+XqV2FH8yHZV6qrRdu2bQ=", "ecoMtgTn3m0eJ4W84fXvfw=="), //DeviceCensus.exe

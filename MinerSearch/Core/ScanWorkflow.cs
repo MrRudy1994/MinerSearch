@@ -777,6 +777,20 @@ namespace MSearch.Core
             RegistryThreatObject reg = target as RegistryThreatObject;
             if (reg != null)
             {
+                if (reg.Hive == "HKEY_CURRENT_USER" &&
+                    reg.SectionName != null &&
+                    reg.SectionName.EndsWith("Custom CLSIDs", StringComparison.Ordinal) &&
+                    !string.IsNullOrEmpty(reg.KeyPath))
+                {
+                    string clsidKey = reg.KeyPath;
+                    int slashIndex = clsidKey.LastIndexOf('\\');
+                    if (slashIndex >= 0)
+                        clsidKey = clsidKey.Substring(slashIndex + 1);
+
+                    if (MSData.GetInstance.badClsidHandlers.Contains(clsidKey.Trim('{', '}'), StringComparer.OrdinalIgnoreCase))
+                        return true;
+                }
+
                 if (!string.IsNullOrEmpty(reg.ValueName))
                 {
                     if (MSData.GetInstance.obfStr3.Any(s => reg.ValueName.Equals(s, StringComparison.OrdinalIgnoreCase)) ||

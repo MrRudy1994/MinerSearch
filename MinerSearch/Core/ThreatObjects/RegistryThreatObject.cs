@@ -36,8 +36,8 @@ namespace MSearch.Core.ThreatObjects
         public bool ActionDeleteParentKey { get; internal set; }
         public bool ActionRemoveDefenderExclusion { get; internal set; }
 
-        // Поместить объект в карантин перед удалением. Выставляется только по выбору
-        // пользователя в обзоре угроз (анализаторы по умолчанию его не ставят).
+        // Поместить объект в карантин перед удалением. Выставляется выбором пользователя
+        // в обзоре угроз; для известных вредоносных COM-обработчиков его ставит анализатор.
         public bool ActionQuarantine { get; internal set; }
 
         public RegistryThreatObject(

@@ -2303,6 +2303,12 @@ Do you want to continue?
   <data name="_ClsidCustomHandler_RU" xml:space="preserve">
     <value>Кастомный COM-обработчик (InprocServer32):</value>
   </data>
+  <data name="_ClsidHijack_EN" xml:space="preserve">
+    <value>Known malicious COM handler override:</value>
+  </data>
+  <data name="_ClsidHijack_RU" xml:space="preserve">
+    <value>Известный вредоносный COM-обработчик:</value>
+  </data>
   <data name="_AndMoreItems_EN" xml:space="preserve">
     <value>...and #COUNT# more</value>
   </data>

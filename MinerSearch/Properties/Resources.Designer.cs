@@ -923,7 +923,25 @@ namespace MSearch.Properties {
                 return ResourceManager.GetString("_ClsidCustomHandler_RU", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Known malicious COM handler override:.
+        /// </summary>
+        internal static string _ClsidHijack_EN {
+            get {
+                return ResourceManager.GetString("_ClsidHijack_EN", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Известный вредоносный COM-обработчик:.
+        /// </summary>
+        internal static string _ClsidHijack_RU {
+            get {
+                return ResourceManager.GetString("_ClsidHijack_RU", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Ищет локализованную строку, похожую на COM handler (InprocServer32):.
         /// </summary>

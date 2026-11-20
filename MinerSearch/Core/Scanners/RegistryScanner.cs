@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 
@@ -82,7 +83,7 @@ namespace MSearch.Core.Scanners
             // --- 12. App Paths (HKLM) ---
             CollectSubkeysAndSpecifiedValue(results, HKLM, msData.queries["AppPaths"], "App Paths");
 
-            // --- 13. Custom CLSIDs (пользовательские COM-обработчики, HKU) ---
+            // --- 13. Custom CLSIDs (пользовательские COM-обработчики, HKCU + HKU) ---
             var clsidLinkedFileCache = new Dictionary<string, FileThreatObject>(StringComparer.OrdinalIgnoreCase);
             CollectHkuClsidHandlers(results, clsidLinkedFileCache);
 
@@ -380,16 +381,38 @@ namespace MSearch.Core.Scanners
         }
 
         /// <summary>
-        /// Per-user COM handlers (the default value of the InprocServer32 subkey) from Classes branches
-        /// of loaded profiles: HKEY_USERS\&lt;SID&gt;_Classes\CLSID\&lt;GUID&gt;\InprocServer32.
-        /// HKCU\Software\Classes is a merged view of the same data, so it is not scanned separately.
+        /// Per-user COM handlers (the default value of the InprocServer32 subkey) from
+        /// HKCU\Software\Classes and Classes branches of other loaded profiles.
+        /// Only the current user's HKCU view is actionable; other profiles are read-only.
         /// </summary>
         void CollectHkuClsidHandlers(List<IThreatObject> results, Dictionary<string, FileThreatObject> linkedFileCache)
         {
             const string sectionName = "HKU Custom CLSIDs";
+            const string currentUserSectionName = "HKCU Custom CLSIDs";
 
             if (_token.IsCancellationRequested)
                 return;
+
+            string currentUserClasses = null;
+            try
+            {
+                string currentSid = WindowsIdentity.GetCurrent()?.User?.Value;
+                if (!string.IsNullOrEmpty(currentSid))
+                    currentUserClasses = currentSid + "_Classes";
+            }
+            catch { }
+
+            // HKCU is always available and is the only profile whose handler can be quarantined.
+            try
+            {
+                CollectClsidHandlers(results, "HKEY_CURRENT_USER", "HKCU", Registry.CurrentUser,
+                    @"Software\Classes\CLSID", currentUserSectionName, linkedFileCache);
+            }
+            catch (SecurityException se)
+            {
+                AppConfig.GetInstance.LL.LogErrorMessage("_AccessDenied", se, @"HKEY_CURRENT_USER\Software\Classes\CLSID");
+            }
+            catch (Exception) { }
 
             try
             {
@@ -402,6 +425,10 @@ namespace MSearch.Core.Scanners
                         return;
 
                     if (!sidKeyName.EndsWith("_Classes", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    if (!string.IsNullOrEmpty(currentUserClasses) &&
+                        sidKeyName.Equals(currentUserClasses, StringComparison.OrdinalIgnoreCase))
                         continue;
 
                     string clsidPath = $@"{sidKeyName}\CLSID";

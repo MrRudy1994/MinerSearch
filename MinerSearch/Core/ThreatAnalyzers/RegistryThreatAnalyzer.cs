@@ -107,7 +107,7 @@ namespace MSearch.Core.ThreatAnalyzers
             AnalyzeDefenderExclusions(reg, ref risk);
             AnalyzeAutorun(reg, ref risk, ref isMalicious);
             AnalyzeLsaAuthenticationPackages(reg, ref risk, ref isMalicious);
-            AnalyzeCustomClsids(reg);
+            AnalyzeCustomClsids(reg, ref risk, ref isMalicious);
 
             if (risk == 0) yield break;
 
@@ -618,11 +618,11 @@ namespace MSearch.Core.ThreatAnalyzers
         }
 
         /// <summary>
-        /// [Reg] HKU Custom CLSIDs / HKLM Custom CLSIDs sections: collects information about per-user
-        /// and machine-wide InprocServer32 handlers. Unsigned handlers are reported as warnings, the rest
-        /// only with --verbose. No decisions are made: data-collection stage, no actions applied.
+        /// [Reg] HKCU/HKU Custom CLSIDs / HKLM Custom CLSIDs sections: known malicious user-scope
+        /// InprocServer32 overrides are quarantined and removed; other handlers are reported as warnings,
+        /// the rest only with --verbose.
         /// </summary>
-        private void AnalyzeCustomClsids(RegistryThreatObject reg)
+        private void AnalyzeCustomClsids(RegistryThreatObject reg, ref int risk, ref bool isMalicious)
         {
             if (reg.SectionName == null ||
                 !reg.SectionName.EndsWith("Custom CLSIDs", StringComparison.Ordinal))
@@ -630,6 +630,29 @@ namespace MSearch.Core.ThreatAnalyzers
 
             string guid = GetKeyName(reg.KeyPath);
             string handlerPath = reg.ValueData;
+            string normalizedGuid = guid.Trim('{', '}');
+
+            if (MSData.GetInstance.badClsidHandlers.Contains(normalizedGuid, StringComparer.OrdinalIgnoreCase) &&
+                (reg.Hive == "HKEY_CURRENT_USER" || reg.Hive == "HKEY_USERS"))
+            {
+                string trustText = reg.LinkedFile != null ? reg.LinkedFile.TrustResult.ToString() : "N/A";
+                AppConfig.GetInstance.LL.LogCautionMessage("_ClsidHijack", $"{guid} [{trustText}] -> {handlerPath}");
+
+                if (reg.Hive == "HKEY_CURRENT_USER")
+                {
+                    risk += 3;
+                    isMalicious = true;
+                    reg.ActionQuarantine = true;
+                    reg.ActionDeleteParentKey = true;
+
+                    if (reg.LinkedFile != null && !reg.LinkedFile.IsValidSignature)
+                        reg.LinkedFile.ShouldMoveFileToQuarantine = true;
+
+                    AppConfig.GetInstance.LL.LogSuccessMessage("_MarkedForRemoval", guid);
+                }
+
+                return;
+            }
 
             if (reg.LinkedFile != null && !reg.LinkedFile.IsValidSignature)
             {
