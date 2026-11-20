@@ -434,11 +434,28 @@ namespace MSearch.Core.Scanners
                         token.ThrowIfCancellationRequested();
 
                         ScanActivity.Report(filePath);
-                        if (!FileChecker.IsExecutable(filePath))
+
+                        bool isScript = filePath.EndsWith(".ps1", StringComparison.OrdinalIgnoreCase);
+                        if (!isScript && !FileChecker.IsExecutable(filePath))
                             continue;
 
                         if (FileSystemManager.IsReparsePoint(filePath) || !FileSystemManager.IsAccessibleFile(filePath))
                             continue;
+
+                        if (isScript)
+                        {
+                            long scriptSize = 0;
+                            string scriptHash = "";
+
+                            try { scriptSize = new FileInfo(filePath).Length; } catch { }
+                            try { scriptHash = FileChecker.CalculateSHA1(filePath); } catch { }
+
+                            results.Add(new FileThreatObject(filePath, Path.GetFileName(filePath), scriptSize, "", "", scriptHash, WinVerifyTrustResult.FileNotSigned)
+                            {
+                                SourceTag = "caches_script"
+                            });
+                            continue;
+                        }
 
                         WinVerifyTrustResult trustResult = WinTrust.GetInstance.VerifyEmbeddedSignature(filePath);
 

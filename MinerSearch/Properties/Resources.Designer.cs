@@ -1915,6 +1915,42 @@ namespace MSearch.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Task runs a script from the Windows cache:.
+        /// </summary>
+        internal static string _CachesScriptTask_EN {
+            get {
+                return ResourceManager.GetString("_CachesScriptTask_EN", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Задача запускает скрипт из кэша Windows:.
+        /// </summary>
+        internal static string _CachesScriptTask_RU {
+            get {
+                return ResourceManager.GetString("_CachesScriptTask_RU", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PowerShell script in the user cache directory:.
+        /// </summary>
+        internal static string _ScriptInUserCaches_EN {
+            get {
+                return ResourceManager.GetString("_ScriptInUserCaches_EN", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Скрипт PowerShell в кэш-каталоге пользователя:.
+        /// </summary>
+        internal static string _ScriptInUserCaches_RU {
+            get {
+                return ResourceManager.GetString("_ScriptInUserCaches_RU", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Unhandled Exeption.
         /// </summary>
         internal static string _ExeptionTitle_EN {

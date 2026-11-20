@@ -258,6 +258,40 @@ namespace MSearch.Core.ThreatAnalyzers
                 }
             }
 
+            string cachesScriptPath = FindCachesScriptPath(filePathFromTask)
+                ?? FindCachesScriptPath(action.Path)
+                ?? FindCachesScriptPath(args);
+
+            if (cachesScriptPath != null)
+            {
+                FileThreatObject cachesScriptFile = taskObj.LinkedFile;
+
+                if (cachesScriptFile == null ||
+                    !string.Equals(MSData.NormalizeKnownPath(cachesScriptFile.FilePath),
+                        MSData.NormalizeKnownPath(cachesScriptPath), StringComparison.OrdinalIgnoreCase))
+                {
+                    cachesScriptFile = CreateFileObject(cachesScriptPath);
+                    if (cachesScriptFile != null)
+                        taskObj.LinkedFileFromArgs = cachesScriptFile;
+                }
+
+                risk += 3;
+                taskObj.DetectionReasonRes = "_CachesScriptTask";
+
+                if (!LaunchOptions.GetInstance.ScanOnly)
+                {
+                    taskObj.ActionQuarantineTask = true;
+                    taskObj.ActionDeleteTask = true;
+
+                    if (cachesScriptFile != null)
+                        cachesScriptFile.ShouldMoveFileToQuarantine = true;
+
+                    AppConfig.GetInstance.LL.LogSuccessMessage("_TaskMarkedToQuarantine", $"{taskObj.Info.Path}\\{taskObj.Info.Name}");
+                }
+
+                yield return new ThreatDecision(taskObj, risk, ScanObjectType.Malware);
+            }
+
             if (taskObj.LinkedFile != null)
             {
                 AppConfig.GetInstance.LL.LogMessage("\t[.]", "_Just_File", $"{filePathFromTask} {args}", ConsoleColor.Gray);
@@ -1456,6 +1490,30 @@ namespace MSearch.Core.ThreatAnalyzers
 
             string expanded = Environment.ExpandEnvironmentVariables(rawPath.Trim().Trim('"'));
             return expanded.IndexOf(@"\config\systemprofile\", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        string FindCachesScriptPath(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
+
+            string expanded = Environment.ExpandEnvironmentVariables(text);
+
+            foreach (Match match in Regex.Matches(expanded, @"[A-Za-z]:\\[^""'<>|]*?\.ps1", RegexOptions.IgnoreCase))
+            {
+                string candidate = match.Value.Trim('"', '\'', ' ');
+                int driveIndex = candidate.LastIndexOf(":\\", StringComparison.Ordinal);
+
+                if (driveIndex > 0)
+                    candidate = candidate.Substring(driveIndex - 1);
+
+                candidate = candidate.Trim('"', '\'', ' ');
+
+                if (Regex.IsMatch(candidate, MSData.GetInstance.regexPatterns[MSKeys.WinCaches], RegexOptions.IgnoreCase))
+                    return candidate;
+            }
+
+            return null;
         }
 
         bool IsTempBinaryPath(string rawPath)

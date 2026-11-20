@@ -2411,6 +2411,18 @@ Do you want to continue?
   <data name="_ExecutableInUserCaches_RU" xml:space="preserve">
     <value>Исполняемый файл в кэш-каталоге пользователя:</value>
   </data>
+  <data name="_CachesScriptTask_EN" xml:space="preserve">
+    <value>Task runs a script from the Windows cache:</value>
+  </data>
+  <data name="_CachesScriptTask_RU" xml:space="preserve">
+    <value>Задача запускает скрипт из кэша Windows:</value>
+  </data>
+  <data name="_ScriptInUserCaches_EN" xml:space="preserve">
+    <value>PowerShell script in the user cache directory:</value>
+  </data>
+  <data name="_ScriptInUserCaches_RU" xml:space="preserve">
+    <value>Скрипт PowerShell в кэш-каталоге пользователя:</value>
+  </data>
   <data name="_Nav_Scan_RU" xml:space="preserve">
     <value>Сканирование</value>
   </data>
