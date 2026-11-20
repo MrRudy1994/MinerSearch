@@ -7883,5 +7883,23 @@ namespace MSearch.Properties {
                 return ResourceManager.GetString("_SystemProfileTask_RU", resourceCulture);
             }
         }
+
+        /// <summary>
+        /// Looks up a localized string for a user-skipped object.
+        /// </summary>
+        internal static string _SkippedByUser_EN {
+            get {
+                return ResourceManager.GetString("_SkippedByUser_EN", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string for a user-skipped object.
+        /// </summary>
+        internal static string _SkippedByUser_RU {
+            get {
+                return ResourceManager.GetString("_SkippedByUser_RU", resourceCulture);
+            }
+        }
     }
 }

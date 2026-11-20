@@ -173,6 +173,7 @@ namespace MSearch.Core.Managers
 
                 string description = GetDescription(decision);
                 _state.AddScanResult(new ScanResult(decision.ObjectType, description, ScanActionType.Skipped, decision.Note, decision.Target.Id, decision.Target.Kind));
+                AppConfig.GetInstance.LL.LogWarnMessage("_SkippedByUser", description);
 
                 if (IsCountedThreatType(decision.ObjectType))
                     _state.IncrementSkippedThreats();
