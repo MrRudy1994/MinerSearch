@@ -635,14 +635,16 @@ namespace MSearch.UI
                 L(messageKey).Replace("#FILESCOUNT#", affectedFiles.Count.ToString()) + "\n");
 
             int shown = Math.Min(affectedFiles.Count, MaxSummaryPaths);
-            for (int i = 0; i < shown; i++)
-                text.Append("\n" + affectedFiles[i]);
 
+            // Keep the overflow count above the list so a tall dialog cannot clip it.
             if (affectedFiles.Count > shown)
             {
                 text.Append("\n" + L("_AndMoreItems")
                     .Replace("#COUNT#", (affectedFiles.Count - shown).ToString()));
             }
+
+            for (int i = 0; i < shown; i++)
+                text.Append("\n" + affectedFiles[i]);
 
             if (failedCount > 0)
             {
