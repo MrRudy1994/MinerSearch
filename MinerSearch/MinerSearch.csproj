@@ -120,6 +120,7 @@
     <Compile Include="Core\ThreatAnalyzers\ServiceThreatAnalyzer.cs" />
     <Compile Include="Core\ThreatAnalyzers\SignatureFileAnalyzer.cs" />
     <Compile Include="Core\ThreatAnalyzers\TaskThreatAnalyzer.cs" />
+    <Compile Include="Core\ThreatAnalyzers\PowerShellScriptInspector.cs" />
     <Compile Include="Core\ThreatAnalyzers\ShellStartupThreatAnalyzer.cs" />
     <Compile Include="Core\ThreatAnalyzers\FileSystemThreatAnalyzer.cs" />
     <Compile Include="Core\ThreatAnalyzers\DirectoryThreatAnalyzer.cs" />

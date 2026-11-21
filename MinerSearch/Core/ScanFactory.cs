@@ -55,7 +55,7 @@ namespace MSearch.Core
                 new ShellStartupThreatAnalyzer(signatureFileAnalyzer),
                 new RegistryThreatAnalyzer(signatureFileAnalyzer),
                 new ServiceThreatAnalyzer(signatureFileAnalyzer),
-                new TaskThreatAnalyzer(signatureFileAnalyzer),
+                new TaskThreatAnalyzer(signatureFileAnalyzer, new PowerShellScriptInspector()),
                 new FirewallThreatAnalyzer(),
                 new DirectoryThreatAnalyzer(),
                 new WmiThreatAnalyzer(),

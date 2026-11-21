@@ -17,6 +17,7 @@ namespace MSearch.Core.ThreatAnalyzers
     {
         public ThreatObjectKind Kind => ThreatObjectKind.ScheduledTask;
         readonly IFileContentAnalyzer _fileAnalyzer;
+        readonly PowerShellScriptInspector _scriptInspector;
         FileContentAnalysisResult _analysisResult = FileContentAnalysisResult.Error();
         private CancellationToken _token;
 
@@ -44,9 +45,10 @@ namespace MSearch.Core.ThreatAnalyzers
         private static readonly object _masqueradeLock = new object();
 
 
-        public TaskThreatAnalyzer(IFileContentAnalyzer fileAnalyzer)
+        public TaskThreatAnalyzer(IFileContentAnalyzer fileAnalyzer, PowerShellScriptInspector scriptInspector = null)
         {
             _fileAnalyzer = fileAnalyzer;
+            _scriptInspector = scriptInspector ?? new PowerShellScriptInspector();
         }
 
         private static bool _headerLogged = false;
@@ -290,6 +292,45 @@ namespace MSearch.Core.ThreatAnalyzers
                 }
 
                 yield return new ThreatDecision(taskObj, risk, ScanObjectType.Malware);
+            }
+
+            string powerShellScriptPath = cachesScriptPath == null
+                ? FindPowerShellScriptPath(filePathFromTask)
+                    ?? FindPowerShellScriptPath(action.Path)
+                    ?? FindPowerShellScriptPath(args)
+                : null;
+
+            if (powerShellScriptPath != null && FileSystemManager.IsFileExistsLongPath(powerShellScriptPath))
+            {
+                string taskCommand = ((action.Path ?? "") + " " + args);
+                PowerShellScriptAnalysisResult scriptResult = _scriptInspector.Analyze(powerShellScriptPath, taskCommand, _token);
+
+                if (scriptResult.IsMalicious || scriptResult.IsSuspicious)
+                {
+                    FileThreatObject scriptFile = GetScriptFile(taskObj, powerShellScriptPath);
+                    bool malicious = scriptResult.IsMalicious;
+
+                    risk += malicious ? 3 : 2;
+                    taskObj.DetectionReasonRes = malicious ? "_PowerShellScriptMalicious" : "_PowerShellScriptSuspicious";
+
+                    if (!LaunchOptions.GetInstance.ScanOnly && malicious)
+                    {
+                        taskObj.ActionQuarantineTask = true;
+                        taskObj.ActionDeleteTask = true;
+
+                        if (scriptFile != null)
+                            scriptFile.ShouldMoveFileToQuarantine = true;
+
+                        AppConfig.GetInstance.LL.LogSuccessMessage("_TaskMarkedToQuarantine", $"{taskObj.Info.Path}\\{taskObj.Info.Name}");
+                    }
+
+                    if (malicious)
+                        AppConfig.GetInstance.LL.LogCautionMessage("_PowerShellScriptMalicious", powerShellScriptPath);
+                    else
+                        AppConfig.GetInstance.LL.LogWarnMediumMessage("_PowerShellScriptSuspicious", powerShellScriptPath);
+
+                    yield return new ThreatDecision(taskObj, risk, malicious ? ScanObjectType.Malware : ScanObjectType.Suspicious);
+                }
             }
 
             if (taskObj.LinkedFile != null)
@@ -1514,6 +1555,73 @@ namespace MSearch.Core.ThreatAnalyzers
             }
 
             return null;
+        }
+
+        string FindPowerShellScriptPath(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
+
+            string expanded = Environment.ExpandEnvironmentVariables(text);
+
+            foreach (Match match in Regex.Matches(expanded, @"[A-Za-z]:\\[^""'<>|]*?\.ps1", RegexOptions.IgnoreCase))
+            {
+                string candidate = match.Value.Trim('"', '\'', ' ');
+                int driveIndex = candidate.LastIndexOf(":\\", StringComparison.Ordinal);
+
+                if (driveIndex > 0)
+                    candidate = candidate.Substring(driveIndex - 1);
+
+                candidate = candidate.Trim('"', '\'', ' ');
+
+                if (!string.IsNullOrEmpty(candidate))
+                    return candidate;
+            }
+
+            return null;
+        }
+
+        FileThreatObject GetScriptFile(TaskThreatObject taskObj, string scriptPath)
+        {
+            if (taskObj.LinkedFile != null &&
+                string.Equals(MSData.NormalizeKnownPath(taskObj.LinkedFile.FilePath),
+                    MSData.NormalizeKnownPath(scriptPath), StringComparison.OrdinalIgnoreCase))
+            {
+                return taskObj.LinkedFile;
+            }
+
+            if (taskObj.LinkedFileFromArgs != null &&
+                string.Equals(MSData.NormalizeKnownPath(taskObj.LinkedFileFromArgs.FilePath),
+                    MSData.NormalizeKnownPath(scriptPath), StringComparison.OrdinalIgnoreCase))
+            {
+                return taskObj.LinkedFileFromArgs;
+            }
+
+            FileThreatObject scriptFile = CreateScriptFileObject(scriptPath);
+            if (scriptFile != null)
+                taskObj.LinkedFileFromArgs = scriptFile;
+
+            return scriptFile;
+        }
+
+        FileThreatObject CreateScriptFileObject(string path)
+        {
+            try
+            {
+                var fileInfo = new FileInfo(path);
+                return new FileThreatObject(
+                    path,
+                    Path.GetFileName(path),
+                    fileInfo.Length,
+                    "",
+                    "",
+                    FileChecker.CalculateSHA1(path),
+                    WinVerifyTrustResult.FileNotSigned);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         bool IsTempBinaryPath(string rawPath)

@@ -2429,6 +2429,18 @@ Do you want to continue?
   <data name="_ScriptInUserCaches_RU" xml:space="preserve">
     <value>Скрипт PowerShell в кэш-каталоге пользователя:</value>
   </data>
+  <data name="_PowerShellScriptMalicious_EN" xml:space="preserve">
+    <value>Malicious PowerShell script:</value>
+  </data>
+  <data name="_PowerShellScriptMalicious_RU" xml:space="preserve">
+    <value>Вредоносный PowerShell-скрипт:</value>
+  </data>
+  <data name="_PowerShellScriptSuspicious_EN" xml:space="preserve">
+    <value>Suspicious PowerShell script:</value>
+  </data>
+  <data name="_PowerShellScriptSuspicious_RU" xml:space="preserve">
+    <value>Подозрительный PowerShell-скрипт:</value>
+  </data>
   <data name="_Nav_Scan_RU" xml:space="preserve">
     <value>Сканирование</value>
   </data>

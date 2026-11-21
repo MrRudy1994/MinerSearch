@@ -41,6 +41,18 @@ namespace DBase
         public const string IfExistMarkers = "IfExistMarkers";
         public const string UserWritableMarkers = "UserWritableMarkers";
         public const string ConhostArgMarkers = "ConhostArgMarkers";
+        public const string PowerShellInjectionMarkers = "PowerShellInjectionMarkers";
+        public const string PowerShellMinerMarkers = "PowerShellMinerMarkers";
+        public const string PowerShellDownloadMarkers = "PowerShellDownloadMarkers";
+        public const string PowerShellPersistenceMarkers = "PowerShellPersistenceMarkers";
+        public const string PowerShellTamperMarkers = "PowerShellTamperMarkers";
+        public const string PowerShellPrivilegeMarkers = "PowerShellPrivilegeMarkers";
+        public const string PowerShellAntiDetectMarkers = "PowerShellAntiDetectMarkers";
+        public const string PowerShellMasqueradeMarkers = "PowerShellMasqueradeMarkers";
+        public const string PowerShellHiddenMarkers = "PowerShellHiddenMarkers";
+        public const string PowerShellBypassMarkers = "PowerShellBypassMarkers";
+        public const string PowerShellSignatureBlockMarkers = "PowerShellSignatureBlockMarkers";
+        public const string PowerShellDefenderPathMarkers = "PowerShellDefenderPathMarkers";
 
         // regexPatterns
         public const string EncodedCommand = "EncodedCommand";
@@ -832,6 +844,87 @@ namespace DBase
 			Bfs.Create("2RA33crk7R3/UX+pqne7LQ==", "+habqjw7PXvRRj/U3N9LH9q0k3DG7pe2az424KXyQ/c=", "XO9m2jxKGJzqa8mLAQmuog=="), // -ec 
 			Bfs.Create("mAY755l9XVi04m2MBGQinSaXnZMnTmhD0whTXYTD7tc=", "KfgXQ95XJkINrOOmAyWiciSeTqfYN0dywRy62nM/5Xc=", "fJxrEaGdvMgs6gESCNygKA=="), // -encodedcommand 
 			Bfs.Create("+ZK2PU/NkPl9IV2km78dtw==", "ptWKJcNuPsIc5Ea1QfVL0nOVxg1q+J5121gGFBkpxrE=", "JattwjzYnfsbwZrNcEf+cg=="), //appdata\local
+		},
+		[MSKeys.PowerShellInjectionMarkers] = new string[] {
+			Bfs.Create("5x0erN68kkFs6xpmEQyyj667vn5lG5Ahx+ShItRhxJw=", "+mHKH18xmU+05Wf2Prl+9KkeEt91sCp7rQ8Vvl3C3yo=", "UXRe7NHKyKhO6Pww/Psaqg=="),
+			Bfs.Create("AJFmZdAZhXYgIx2wBuxBsQ==", "B41fBbmaX3Lf3/yxwNeIxkYP9QD4F1g//YOeed+o3+I=", "s3umsQyuRJUxSoIPTDijIg=="),
+			Bfs.Create("MNOH00J6/iSS9BxT6OoQjPk2a0LObGTR+ufKuJpl8JY=", "T9kJBqb9MrZ1qT2onERmt1ih0obcdGA9jMg+uJ2MwzA=", "iunLag0HB6qM178KAYbVWA=="),
+			Bfs.Create("v96x1+p+UdDeVjBz56bv0cwdKZn07Fl2kyP0ht4exQw=", "zN9kLbPz39qvRzLoSuoGvTv98Djm+ktCu7iYKlE68dg=", "zjimY9Nv3GV/3Fxj26ojZQ=="),
+			Bfs.Create("hYQ1UWl0PwVp+yQ/uZ01ywK2+j7LkEi13/HC39B2Eug=", "eIJk3l03zH73qZOwUkNeFG0IQJk6j1RXMdjOgYglncg=", "wYAGeSHOLc4XJQG7ILBzww=="),
+			Bfs.Create("1VqiRvyK50dC8OmlZoOOHd3Tvn/BwUSsoJyN9Yp8ZCU=", "TWlfM7b/wv79FEhim2fxJPj2SV7eR+4WFaRWoP10V5s=", "Ja0teY/hmL4TWzFB30mt1Q=="),
+			Bfs.Create("EtuxoOtfuA/iyRU1oF7Y8g==", "VKdVQpu1AjdlRXElg0lpufSI0b+6HqmuCPG8WU1P72g=", "lyGx6+5AQAiQmog3JX3TZg=="),
+		},
+		[MSKeys.PowerShellMinerMarkers] = new string[] {
+			Bfs.Create("GDeyEmrYI+33Pmz5oXAUmQ==", "mGmixYLF3wHjlp9pJJKS6yjBF5RcJvBKn96sXVkCrVY=", "ZP6/3mmVzLTXQTbZn7wYmw=="),
+			Bfs.Create("wez+AcTp/TBM9JMH8PEQMRKE42Rpd+dirdieAARptPw=", "WVsNia9intAmETkqYZZNKbtfXiWgD9NfLfC2I7/dulg=", "c0Fxiqfb1iLob2yChRA/Tw=="),
+			Bfs.Create("pesmQCYuxSXP9/JGk0OsnQ==", "zUyyM/XIWQAiAjuP0LbQxQlNUsOYmBunvRfHwEcZD6M=", "KA+TXwadKMcvXIRQ1MnUNQ=="),
+			Bfs.Create("6s87SZztZoTx2otJypn6Kw==", "QHccwu3HlK5zKwdbVz8Ql/F3zReW7TuuQFte4pknWi8=", "wP7MH7Q+lSEgJvP+8Icamw=="),
+			Bfs.Create("NmfbhDIE+E42F9vHzxtSzA==", "yr5wi3QaIRsKjXx+hNJI5fZZ32mbkGjeCyXphw1je/c=", "G9tyWJiLykVGFqNsHp3ehQ=="),
+			Bfs.Create("0Uig5COF1sOVrSzRk2ahhw==", "LbWW0JoIfkRXZ8evM+SmplTv6qlBsbHnuXRA5rukH7M=", "EnhMeyEzIzTdIiIIj/LijA=="),
+			Bfs.Create("PcIMD6lx8T0a0Q/Eg9Bejw==", "OJLBAxBQOma17GgTDiFkuxXF3QyoaRlgv0xkASAeXQM=", "wjEB4w9Krvk1weRZlgpx7A=="),
+			Bfs.Create("IIFlr9xk0jxXhe3NTCS8Qw==", "0d55CKaN/B9sz9iDCR/lq0yjcewJ3Bvddflb5BN+jDw=", "S0FvQQO5SqsrAFGwNVVHfg=="),
+		},
+		[MSKeys.PowerShellDownloadMarkers] = new string[] {
+			Bfs.Create("jNGw1rDF9utKZzkTtnWvebg3BriM/2L9yKKdxW95frU=", "fz5Slg0ciMO5isrBPNXy0rQ8aICiyr156FRq6ofhMro=", "f2Dl+uANmEtuGAoIyOIouA=="),
+			Bfs.Create("orI+qIUCyvZaYUklB+8XRjjcR77u6F7XGLg0TdQV/BY=", "Abk4pPISG18wTX4Gt4330VOA8Z/fBrayJaa3ayBbdrw=", "rd789gFJf7bCBYV1LZYeEw=="),
+			Bfs.Create("lWcOEe5M+Dovg0M41zhJQQ==", "bq7rej3wGGBCSe/gXOdfVzZEUc538niaLo/HaKLKzLw=", "Nd2RRykLg25hruRE6xbkFQ=="),
+			Bfs.Create("fyKwrZ99JdGD9cvx+LxH9w==", "gQHXJ1PeGOo3XdsSi9Uwn87T5wlpFHDtlFKS5rtgrkQ=", "Le5RmcglBFkm2tjh5rBBXg=="),
+			Bfs.Create("l+4E70GsPMw7MDC09KNqfaJ3ISozIM+/fD7FOY9DSH4=", "OzNfNer2YkJCEjTKULkhBpvTfxhPQ/EDwUwxt6K42Gg=", "4Dw9SfHZYo0no717EKEIAA=="),
+			Bfs.Create("kTBgBlYeE/i/tOpPzGmteQ==", "P12hxf/ck964VkqEz5X2Sf6PG8XQHSkHfGGGN9oTpEg=", "u7odlF3lsQYvmGfaig9oeQ=="),
+			Bfs.Create("sKzGornGqfI8E4KEJ/nx96D4Ii/as+9HuG395YTqoNw=", "KmjBJ0hHSzBSWpnLnDUVJv4cMIN72BGalbBVuRjgA5E=", "sUYsKSyhnSLdLh5Wk61jCQ=="),
+			Bfs.Create("0vS3eEqS0098ak/w33U4uQ==", "KsZW5EgWvjc5VHYj4z1m47bheuhlr7smYXJp0JzF+90=", "6msxpY03nN7VyOtS68YNAQ=="),
+		},
+		[MSKeys.PowerShellPersistenceMarkers] = new string[] {
+			Bfs.Create("vYc0LAYZtTk+zxLvE6QXB1wFtxuB7W/m5cKIsAKTj2g=", "DMAS9IkfIb/1qnyxXzxnORTkJ5nwStTg6ZYsEaoLAD8=", "EZKfxI/idc3IaZsMUImElg=="),
+			Bfs.Create("Df7WE7Fbbm6vRp28Ir4WIyBzWsC6eXlsggU9QYbX5uE=", "a+r2a7MDAQsLoVkfwfnpc4efkPqjJjzZ/x/lTxL/uTc=", "WDocHb9/QFhNZtSexiiVbQ=="),
+			Bfs.Create("Ro286sG8mfuw+hYVapEhqg==", "BFa88kvwNWw5n91WZQaDq1hhcEFgupkmJmnyF5AoFTs=", "Mm+VgA/pRxro6Hfh5B4OYQ=="),
+			Bfs.Create("HsQHJj9oVDnmFPVOPXLj5Q==", "5z6H5fXOpGgbu3wQVMzMwHPbDsjL/2/tZrRZ8GJUrBQ=", "FgKjsr/QYbOqZ6AUE0UOUA=="),
+			Bfs.Create("2QXokxunmOLmM7forAS2Rg==", "GxZZHuKliqvWAsmBWapKFMltFBrhsN11Ybr2k3g4vsM=", "kFDbM+DhARQ5mL1NGwZsXw=="),
+			Bfs.Create("+aoaWEtLwJt/drrjw3aXxw==", "H/Fd/61vRvDG9QVOp9fQThwHACP6NYs/GL82ZnZwdNE=", "pDtVKReQpzeZO3bGmVcbeg=="),
+			Bfs.Create("xwYKm90Y/5L6YkHCQJ3AmCH65bewLQ3wNBmZZ5SMCfQ=", "GY2NH7AkAOm4I6i95wUItCTGUfrLfLZl9tz7Kzb+jCM=", "GYR7wjvo7LJAJIbUYlodOQ=="),
+			Bfs.Create("ojeoaBCKvMI7+FHwZ8Jvdg==", "3x/aQWftmvn3eSI4ulfNiSZGupU1QzrJP7hRQt+0SNM=", "DI1nlvgtg4JqcE1hyn5VTQ=="),
+		},
+		[MSKeys.PowerShellTamperMarkers] = new string[] {
+			Bfs.Create("6bdh/Wg2lR1tW26e1gXqg3vUVlBaAvfQteCvcC8ciLY=", "FX+K1orGF3sDuOorUxriJTuszn++lP4nyLjYo6NoiQw=", "l4aW85F0GmO5hqxrVx2AyA=="),
+			Bfs.Create("rVzymZU1Urq/5+Wr+7zcEQ==", "khDfOEMoUW8d1SQ94hNgFVnvFeLaGWUw25IG6Q83smI=", "CmzKwlZQA7BypnM9Mb9/Zg=="),
+			Bfs.Create("DTjnypzO8DaNjXUKeIDbA0w1lzCUr49EWAxBR1Xcyh8=", "mGuOHpHEoLKTt+aVYBbFj3EEbnCaCwPBSxApPswpQRw=", "pzlOdfcrNOUTMgCgDsQJdA=="),
+			Bfs.Create("bJNM8D2lr79WEI7SNFw8pLoBWpZRNTiFHPWNU4lz7/4=", "e1QKrblgiD1cKu5THVZVEGRjjEJF8EavqHTsduJ2mY4=", "lbi493o0DJOLUlhW7ZffuA=="),
+			Bfs.Create("+bdBr08y9XT7n7VbQ7QIhw==", "qIJ6Q/rdQ+9ebJ5xtKC7S9z43W8lX11fgBoKfmKNnoM=", "obNwiMPcPI/e1OJxKL/m/Q=="),
+			Bfs.Create("Ub8TeeLxKcstcEgBNMcMR1X1XEC7VdQPty5ycRACEJ0=", "xUyJ1QPL0UKv4DEA3Vq55Ia3X6tV1L4/6oym3H9WfWk=", "4H8Y5K+QkWBsJxKHw2H0yQ=="),
+			Bfs.Create("lVKJrN6ZamN1WfTUO2qj90lVliJuoFi+Cw5Rantkze8=", "b3RbMd99aNmdzKp3RzAqrruy8iWK7ktOgEQxCEkyiwE=", "tvrMZgwM2PpMO661AdzYzw=="),
+		},
+		[MSKeys.PowerShellPrivilegeMarkers] = new string[] {
+			Bfs.Create("TiijCiMU76GCCQulNzboaaoGWfDR4X+6t5RTW88QlL8=", "1Hd/K81STkmnKhWykiHKvdMOXHJJy4G8RQuaW/tytV0=", "ngR2A5bKdbjI76Ap5eBmKg=="),
+			Bfs.Create("+B2oaNz4g0lAD2ywjOMHDckrTtA6MERm5ycFq2shfyE=", "C4dh+EL6ofMEk05ZHzzCSN5KZvZ5uERizUSjEbM9Imw=", "92k0lIx2dz70ObtiagL6UA=="),
+			Bfs.Create("WH4YVLyz3/xJrF+FZguZMeChFHQlNqiy8hL70iF9jjk=", "a0i3P7AmaUavmUwB5gSnKPGx9XGo66bMsGG2kbTUpRc=", "+k3MotSubJ9RfcKRPIuNiw=="),
+			Bfs.Create("M9AtKvGEhZLebExCWA5HLA==", "atFD2Y0h3ncW+TLttd9BIv6E+Sb4JyJQcYiEv5Sl/xo=", "fsWrEE/4r2SlPTXf9Abxpg=="),
+			Bfs.Create("eZ6lRX7dUKQC+qeL3gxCcu5X8SFFAANw9XnPy8dzJh8=", "scOvd54tn1oghdt5kG7wZJVwdF2UIX7a0r3LUAH287M=", "YFtFzOj15JxPPsVMMMCV2Q=="),
+			Bfs.Create("acB5PST2IMD6L0CNzkD+gie/YJEpQJAmyWQlhsi8+v4=", "Xlzhz3EpN9vWhn4ojlBK/nDoHExCsH7/+0Sm7yFFRYE=", "8jozJyMC+O1TSPvZsYO7Fw=="),
+			Bfs.Create("Y2ljFDoRqVkBe72p3HY4UgaPUbUveNAcUEMPMW5tNSE=", "F0YUnhtdB2AHSuaJJQF1MLg4rByoQH+kleMHnazEWjM=", "l3TBzICStARrrTwuobX4ZA=="),
+		},
+		[MSKeys.PowerShellAntiDetectMarkers] = new string[] {
+			Bfs.Create("1njINE5o2FPzu5CP41zYAw==", "7jmvXveo46CVV6NdrPLYI9OE9zVqPmtAS6Tyo0LvWd0=", "Dn2dkt5hst7qoy5EPeLAEg=="),
+			Bfs.Create("po+mgbjI4+4YNaqewviDBw==", "gdrtgXXXh5iZzvwLjd4FM/aZabx6Of5YyRD+/d+wWgc=", "dyszjxjOgmp/OWzpG0RNOQ=="),
+			Bfs.Create("KrcYp2UtcZqx0f5jRKbA5cqN15NTTeupVO6KI4462GM=", "WVLVn3UHCDtxutkIual8FekvbfknRmLGH0zDzzlpaE4=", "xlJH3LPAwtHy9qa/IDYjsA=="),
+			Bfs.Create("QEuG9ltK9WxQQgvSGLnt1w==", "+td0Db8J4ae4SXP/02Opykz5cAUynJ/5Sl9kZEBgv3Q=", "AFgsDINaEyFhgyRZuqDU3A=="),
+		},
+		[MSKeys.PowerShellMasqueradeMarkers] = new string[] {
+			Bfs.Create("nzDAS3j4zdc6fdRWQCSR+CddLKhMlJ6k1E4Q4gWY7OM=", "Bv95F3FYh0pObPkTYBWS8tMuIzDPpGpk3bvBRzye6Tw=", "Mc+RM+4LlmeYXthOKOYZzQ=="),
+		},
+		[MSKeys.PowerShellHiddenMarkers] = new string[] {
+			Bfs.Create("dB9tlh3sCQkFlOi9eF5ghkx80y2J2DiiobzQb534DYQ=", "0tyKbsvR1i3iWewyM7Qq/oqJI8L4pO+VYnxEM8Kg/sI=", "Qya3qAPZYIplRxGZieRSew=="),
+			Bfs.Create("bGcy465tGcwXRgGlpCLhEQ==", "dKF58vCmCA3cOE9zgI3zOVf7xEruOJIcOlsloB9myBc=", "U0WzKjMEX8dw/9sje7B9+Q=="),
+		},
+		[MSKeys.PowerShellBypassMarkers] = new string[] {
+			Bfs.Create("3JtaGVdEFsunv6AbM6+uAdpZi9OJMt6dTJKcqjaFaW4=", "r5YXy1bGWzDQbzd9An+fi1tvl8fNUj1uPWmsCdJyiag=", "C68m3TyMU4fcDeAAS/VxLQ=="),
+			Bfs.Create("4EozEkOp3ncPY5VUXvsSlQ==", "D/Tf/eW7bWYzUKwiiTdukx9+LGGBNdJWcWoioBrErr8=", "7vhc51zhkEopqpMVXUOLAQ=="),
+			Bfs.Create("y6NaSwf4e54M9vYt5pJIJQ==", "fQ9HqvRnrl5S42Bduf03XwCVsfrtCPVSIokk6KPAdtw=", "DDTyelgiqDMd0cWPaecafA=="),
+		},
+		[MSKeys.PowerShellSignatureBlockMarkers] = new string[] {
+			Bfs.Create("+CtrIGrPjr6nn7483S+9uSKAhV9OWHUofaQJ8LxdWfU=", "FrG/2qdOOLCuJdsetwggtLgG1z9FvIN3aE1E7327T0s=", "9p3hpq3D9SZzPmXyuFz2tA=="),
+		},
+		[MSKeys.PowerShellDefenderPathMarkers] = new string[] {
+			Bfs.Create("O2NfJ4KCXPTc9pTMnKG3oA219vHNYUMop9bLsc7dIZk=", "sqOhvVixI44+sGtQ1uClJFJaFsrlsi2BV+egY6yBWB8=", "J22DBSn26qgah2tQHfHf2g=="),
 		},
 		};
 

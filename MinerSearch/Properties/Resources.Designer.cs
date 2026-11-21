@@ -1969,6 +1969,42 @@ namespace MSearch.Properties {
         }
 
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Malicious PowerShell script:.
+        /// </summary>
+        internal static string _PowerShellScriptMalicious_EN {
+            get {
+                return ResourceManager.GetString("_PowerShellScriptMalicious_EN", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Вредоносный PowerShell-скрипт:.
+        /// </summary>
+        internal static string _PowerShellScriptMalicious_RU {
+            get {
+                return ResourceManager.GetString("_PowerShellScriptMalicious_RU", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Suspicious PowerShell script:.
+        /// </summary>
+        internal static string _PowerShellScriptSuspicious_EN {
+            get {
+                return ResourceManager.GetString("_PowerShellScriptSuspicious_EN", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Подозрительный PowerShell-скрипт:.
+        /// </summary>
+        internal static string _PowerShellScriptSuspicious_RU {
+            get {
+                return ResourceManager.GetString("_PowerShellScriptSuspicious_RU", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Unhandled Exeption.
         /// </summary>
         internal static string _ExeptionTitle_EN {
