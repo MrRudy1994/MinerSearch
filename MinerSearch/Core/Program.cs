@@ -37,8 +37,6 @@ namespace MSearch
 
         static void Run(string[] args)
         {
-            CheckDependencies();
-
             LaunchOptions _options = LaunchOptions.GetInstance;
 
             Application.EnableVisualStyles();
@@ -100,18 +98,6 @@ namespace MSearch
             Init();
 
 #endif
-        }
-
-        static void CheckDependencies()
-        {
-            string[] required = { "dbase.dll", "netlib.dll", "Win32Wrapper.dll" };
-            string directory = AppDomain.CurrentDomain.BaseDirectory;
-
-            foreach (string file in required)
-            {
-                if (!File.Exists(Path.Combine(directory, file)))
-                    throw new FileNotFoundException(null, file);
-            }
         }
 
         static void ShowMissingDependencyError(string fileName)
