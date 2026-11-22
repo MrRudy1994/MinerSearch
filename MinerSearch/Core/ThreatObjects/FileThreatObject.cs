@@ -38,6 +38,7 @@ namespace MSearch.Core.ThreatObjects
         // Решения (заполняет Анализатор)
         public bool ShouldDeleteFile { get; internal set; }
         public bool ShouldMoveFileToQuarantine { get; internal set; }
+        public bool AllowRebootDeleteOnQuarantineFailure { get; internal set; }
 
         // Заполняет обработчик, если немедленное удаление не удалось и файл помечен на удаление при следующей загрузке
         public bool DeleteScheduledOnReboot { get; internal set; }

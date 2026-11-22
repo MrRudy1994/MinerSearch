@@ -113,6 +113,15 @@ namespace MSearch.Core.ThreatHandlers
 
                 if (File.Exists(path))
                 {
+                    if (decision.Target is FileThreatObject fileThreat &&
+                        fileThreat.AllowRebootDeleteOnQuarantineFailure &&
+                        CanScheduleDeleteOnReboot() &&
+                        NativeFileOperations.ScheduleDeleteOnReboot(path))
+                    {
+                        MarkRebootPending(decision, path);
+                        return ApplyResult.Success;
+                    }
+
                     decision.ActionType = ScanActionType.Error;
                     return ApplyResult.Failed;
                 }
@@ -167,18 +176,7 @@ namespace MSearch.Core.ThreatHandlers
 
                 if (CanScheduleDeleteOnReboot() && NativeFileOperations.ScheduleDeleteOnReboot(path))
                 {
-                    var fileThreat = decision.Target as FileThreatObject;
-                    if (fileThreat != null)
-                        fileThreat.DeleteScheduledOnReboot = true;
-
-                    decision.ActionType = ScanActionType.RebootPending;
-                    string rebootPendingNote = AppConfig.GetInstance.LL.GetLocalizedString("_RebootPendingNote");
-                    if (!string.IsNullOrEmpty(rebootPendingNote) &&
-                        (string.IsNullOrEmpty(decision.Note) || decision.Note.IndexOf(rebootPendingNote, StringComparison.Ordinal) < 0))
-                    {
-                        decision.Note = string.IsNullOrEmpty(decision.Note) ? rebootPendingNote : decision.Note + " | " + rebootPendingNote;
-                    }
-                    AppConfig.GetInstance.LL.LogWarnMessage("_FileScheduledDeleteOnReboot", path);
+                    MarkRebootPending(decision, path);
                     return ApplyResult.Success;
                 }
 
@@ -194,6 +192,23 @@ namespace MSearch.Core.ThreatHandlers
                 AppConfig.GetInstance.LL.LogErrorMessage("_ErrorCannotRemove", ex, path, "_ObjectType_File");
                 return ApplyResult.Error;
             }
+        }
+
+        private static void MarkRebootPending(ThreatDecision decision, string path)
+        {
+            var fileThreat = decision.Target as FileThreatObject;
+            if (fileThreat != null)
+                fileThreat.DeleteScheduledOnReboot = true;
+
+            decision.ActionType = ScanActionType.RebootPending;
+            string rebootPendingNote = AppConfig.GetInstance.LL.GetLocalizedString("_RebootPendingNote");
+            if (!string.IsNullOrEmpty(rebootPendingNote) &&
+                (string.IsNullOrEmpty(decision.Note) || decision.Note.IndexOf(rebootPendingNote, StringComparison.Ordinal) < 0))
+            {
+                decision.Note = string.IsNullOrEmpty(decision.Note) ? rebootPendingNote : decision.Note + " | " + rebootPendingNote;
+            }
+
+            AppConfig.GetInstance.LL.LogWarnMessage("_FileScheduledDeleteOnReboot", path);
         }
 
         private ApplyResult HandleDisableExecutePhase(string path, ThreatDecision decision)

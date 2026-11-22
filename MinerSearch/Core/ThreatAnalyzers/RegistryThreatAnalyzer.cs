@@ -646,7 +646,10 @@ namespace MSearch.Core.ThreatAnalyzers
                     reg.ActionDeleteParentKey = true;
 
                     if (reg.LinkedFile != null && !reg.LinkedFile.IsValidSignature)
+                    {
                         reg.LinkedFile.ShouldMoveFileToQuarantine = true;
+                        reg.LinkedFile.AllowRebootDeleteOnQuarantineFailure = true;
+                    }
 
                     AppConfig.GetInstance.LL.LogSuccessMessage("_MarkedForRemoval", guid);
                 }
